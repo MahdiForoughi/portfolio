@@ -1,26 +1,24 @@
-name: Deploy on Mahdi.Foroughi.info
-
 on:
   push:
-    branches: main
-          
+    branches:
+      - main
+  workflow_dispatch:
+  
 jobs:
-  build:
-    runs-on: ubuntu-latest   
-    steps:   
-      - name: checkout
-        uses: actions/checkout@v2  
-        
-      - name: Generate SSH key
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          host='host.example.com'
-          hosts="$(dig +short "$host" | grep -v '\.$' | sed -z 's|\n|,|g')$host"
-          ssh-keyscan -H "$hosts" > ~/.ssh/known_hosts
-          
-      - name: connect and pull
-        run: ssh foroughi@92.205.179.134 "cd ~/foroughi/home/mahdi-portfolio && git checkout main && git pull && exit"
+  run_pull:
+    name: run pull
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: install ssh keys   
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh
           
           
 

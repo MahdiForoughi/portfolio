@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest   
     steps:   
+      - name: checkout
+        uses: actions/checkout@v2      
       - name: Copy folder content recursively to remote (clean directory)
         uses: ./
         with:

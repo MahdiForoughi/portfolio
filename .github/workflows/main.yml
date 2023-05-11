@@ -1,0 +1,22 @@
+name: scp copy folder to remote via SSH
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest   
+    steps:   
+      - name: Copy folder content recursively to remote (clean directory)
+        uses: ./
+        with:
+          local: ./
+          remote: ~/home/ali/mahdi-profolio
+          host: 92.205.179.134
+          username: foroughi
+          password: qwe123!@#          
+          
+          
+
+           
+     

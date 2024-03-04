@@ -19,6 +19,6 @@ jobs:
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && rm -rf * && git clone https://github.com/MahdiForoughi/portfolio.git && cd portfolio && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
     - name: deploy docker container
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}/Portfolio && docker-compose pull && docker-compose up -d --build && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}/portfolio && docker-compose pull && docker-compose up -d --build && exit"
     - name: cleanup
       run: rm -rf ~/.ssh

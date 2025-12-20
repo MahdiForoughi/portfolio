@@ -1,0 +1,48 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "mahdi-website.fullname" . }}
+  namespace: {{ include "mahdi-website.namespace" . }}
+  labels:
+    {{- include "mahdi-website.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+          {{- range .paths }}
+            - path: {{ .path }}
+              pathType: {{ .pathType }}
+              {{- $serviceName := default "web" .service }}
+              {{- $servicePort := ternary $.Values.web.service.port $.Values.web.service.port (eq $serviceName "web") }}
+              {{- $servicePortString := printf "%v" $servicePort }}
+              backend:
+                service:
+                  name: {{ printf "%s-%s" (include "mahdi-website.fullname" $) $serviceName }}
+                  port:
+                    {{- if regexMatch "^[0-9]+$" $servicePortString }}
+                    number: {{ $servicePortString | int }}
+                    {{- else }}
+                    name: {{ $servicePortString | quote }}
+                    {{- end }}
+
+          {{- end }}
+    {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    {{- range .Values.ingress.tls }}
+    - hosts:
+        {{- toYaml .hosts | nindent 8 }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+{{- end }}

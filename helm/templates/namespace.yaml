@@ -1,0 +1,8 @@
+{{- if .Values.namespace.create }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ include "mahdi-website.namespace" . }}
+  labels:
+    {{- include "mahdi-website.labels" . | nindent 4 }}
+{{- end }}

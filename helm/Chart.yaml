@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mahdi-website
+version: 0.1.0
+description: Helm chart for deploying mahdi Nextjs, and MongoDB
+appVersion: "0.1.0"
+type: application

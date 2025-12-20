@@ -6,9 +6,9 @@ imagePullSecret:
   create: true
   name: mahdi-website-ghcr
   registry: ghcr.io
-  username: "foroughi"
+  username: "MahdiForoughi"
   password: ""
-  email: "forouhi.mahdi@gmail.com"
+  email: "Dev.mahdi82@gmail.com"
 
 web:
   replicaCount: 1

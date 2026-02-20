@@ -25,7 +25,7 @@ web:
 
 ingress:
   enabled: true
-  className: ""
+  className: "traefik"
   annotations: {}
   hosts:
     - host: mahdi.foroughi.cloud

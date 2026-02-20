@@ -70,7 +70,7 @@ jobs:
           sudo chmod +x /usr/local/bin/cloudflared
 
           cloudflared access tcp \
-            --hostname k3s.foroughi.cloud \
+            --hostname k8s.foroughi.cloud \
             --service-token-id "$CF_ACCESS_CLIENT_ID" \
             --service-token-secret "$CF_ACCESS_CLIENT_SECRET" \
             --url 127.0.0.1:6443 &
@@ -82,8 +82,6 @@ jobs:
           set -e
           helm upgrade --install mahdi-website ./helm \
             --namespace mahdi-website \
-            --create-namespace \
-            --wait --debug \
             --set web.image.repository="${{ steps.vars.outputs.web_repository }}" \
             --set web.image.tag="${{ steps.vars.outputs.tag }}" \
             --set imagePullSecret.registry="${{ steps.vars.outputs.registry }}" \

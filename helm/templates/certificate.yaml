@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-foroughi-cloud
+  namespace: {{ .Values.namespace.name }}
+spec:
+  secretName: wildcard-foroughi-cloud-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: "*.foroughi.cloud"
+  dnsNames:
+  - "foroughi.cloud"
+  - "*.foroughi.cloud"

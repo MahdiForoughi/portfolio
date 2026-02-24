@@ -34,4 +34,7 @@ ingress:
           pathType: Prefix
           service: web
 
-  tls: []
+  tls:
+    - secretName: wildcard-foroughi-cloud-tls
+      hosts:
+        - mahdi.foroughi.cloud
